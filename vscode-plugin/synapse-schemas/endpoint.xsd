@@ -64,29 +64,7 @@
         </xs:annotation>
         <xs:choice>
             <xs:element name="default" type="DefaultEndpoint"/>
-            <xs:element name="http">
-                <xs:annotation>
-                    <xs:documentation source="description">
-                        HTTP endpoint representation of the synapse configuration
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:complexType>
-                    <xs:attribute name="uri-template" type="xs:string" use="required"/>
-                    <xs:attribute name="method">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                                <xs:enumeration value="GET"/>
-                                <xs:enumeration value="POST"/>
-                                <xs:enumeration value="PATCH"/>
-                                <xs:enumeration value="DELETE"/>
-                                <xs:enumeration value="PUT"/>
-                                <xs:enumeration value="OPTIONS"/>
-                                <xs:enumeration value="HEAD"/>
-                            </xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
-                </xs:complexType>
-            </xs:element>
+            <xs:element name="http" type="httpEndpoint"/>
             <xs:element name="address">
                 <xs:complexType>
                     <xs:complexContent>
@@ -343,6 +321,31 @@
         <xs:attribute name="port" type="xs:string" use="required"/>
     </xs:complexType>
 
+    <xs:complexType name="httpEndpoint">
+        <xs:annotation>
+            <xs:documentation source="description">
+                HTTP endpoint representation of the synapse configuration
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="commonEndpointTags" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="uri-template" type="xs:string" use="required"/>
+        <xs:attribute name="method">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="GET"/>
+                    <xs:enumeration value="POST"/>
+                    <xs:enumeration value="PATCH"/>
+                    <xs:enumeration value="DELETE"/>
+                    <xs:enumeration value="PUT"/>
+                    <xs:enumeration value="OPTIONS"/>
+                    <xs:enumeration value="HEAD"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:attributeGroup name="commonEndpoint">
         <xs:annotation>
             <xs:documentation source="description">
@@ -377,7 +380,7 @@
                 <xs:complexType>
                     <xs:all>
                         <xs:element name="duration" minOccurs="0" maxOccurs="1" type="xs:long"/>
-                        <xs:element name="action" minOccurs="0" maxOccurs="1" default="discard">
+                        <xs:element name="responseAction" minOccurs="0" maxOccurs="1" default="discard">
                             <xs:simpleType>
                                 <xs:restriction base="xs:string">
                                     <xs:enumeration value="discard"/>
